@@ -10,7 +10,13 @@ import {
   CardContent,
   CardFooter,
 } from "~/components";
-import { XIcon, Upload as UploadIcon, Loader2 } from "lucide-react";
+import {
+  XIcon,
+  Upload as UploadIcon,
+  Loader2,
+  DownloadIcon,
+  ArrowLeftIcon,
+} from "lucide-react";
 
 const isFile = (input: unknown) => input instanceof File;
 
@@ -54,8 +60,10 @@ export const UploadImage: React.FC = () => {
               setProccessedImage(undefined);
               setFile(undefined);
             }}
+            className="flex gap-2 items-center"
           >
-            Voltar
+            <ArrowLeftIcon width={16} height={16} />
+            <span>Voltar</span>
           </Button>
           <Button variant="default" size="block" asChild>
             <a
@@ -65,8 +73,9 @@ export const UploadImage: React.FC = () => {
                   ? `${file.name.slice(0, -4)}-sem-fundo.png`
                   : "image.png"
               }
+              className="flex gap-2 items-center"
             >
-              Baixar
+              <span>Baixar</span> <DownloadIcon width={16} height={16} />
             </a>
           </Button>
         </div>
