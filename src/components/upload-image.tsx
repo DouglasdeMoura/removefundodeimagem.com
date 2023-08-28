@@ -60,7 +60,11 @@ export const UploadImage: React.FC = () => {
           <Button variant="default" size="block" asChild>
             <a
               href={URL.createObjectURL(processedImage)}
-              download={file?.name ? `${file.name}-sem-fundo.png` : "image.png"}
+              download={
+                file?.name
+                  ? `${file.name.slice(0, -4)}-sem-fundo.png`
+                  : "image.png"
+              }
             >
               Baixar
             </a>
