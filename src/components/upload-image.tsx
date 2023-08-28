@@ -48,7 +48,10 @@ export const UploadImage: React.FC = () => {
         <img src={URL.createObjectURL(processedImage)} alt="" />
         <div className="flex gap-4">
           <Button variant="default" size="block" asChild>
-            <a href={URL.createObjectURL(processedImage)} download="image.png">
+            <a
+              href={URL.createObjectURL(processedImage)}
+              download={file?.name ? `${file.name}-sem-fundo.png` : "image.png"}
+            >
               Baixar
             </a>
           </Button>
