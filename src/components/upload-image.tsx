@@ -25,7 +25,7 @@ const loadRemoveBg = () => import("@imgly/background-removal");
 export const UploadImage: React.FC = () => {
   const [, Upload] = useForm<UploadForm>();
   const [file, setFile] = React.useState<File>();
-  const [, setProccessedImage] = React.useState<Blob>();
+  const [processedImage, setProccessedImage] = React.useState<Blob>();
   const [loading, setLoading] = React.useState(false);
 
   const handleSubmit: SubmitHandler<UploadForm> = async ({ image }) => {
@@ -41,6 +41,31 @@ export const UploadImage: React.FC = () => {
         setLoading(false);
       });
   };
+
+  if (processedImage) {
+    return (
+      <div className="flex flex-col gap-4">
+        <img src={URL.createObjectURL(processedImage)} alt="" />
+        <div className="flex gap-4">
+          <Button variant="default" size="block" asChild>
+            <a href={URL.createObjectURL(processedImage)} download="image.png">
+              Baixar
+            </a>
+          </Button>
+          <Button
+            variant="secondary"
+            size="block"
+            onClick={() => {
+              setProccessedImage(undefined);
+              setFile(undefined);
+            }}
+          >
+            Remover fundo de outra imagem
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <Upload.Form onSubmit={handleSubmit}>
