@@ -10,7 +10,7 @@ import {
   CardContent,
   CardFooter,
 } from "~/components";
-import { XIcon, Upload as UploadIcon } from "lucide-react";
+import { XIcon, Upload as UploadIcon, Loader2 } from "lucide-react";
 
 const isFile = (input: unknown) => input instanceof File;
 
@@ -26,17 +26,31 @@ export const UploadImage: React.FC = () => {
   const [, Upload] = useForm<UploadForm>();
   const [file, setFile] = React.useState<File>();
   const [, setProccessedImage] = React.useState<Blob>();
+  const [loading, setLoading] = React.useState(false);
 
   const handleSubmit: SubmitHandler<UploadForm> = async ({ image }) => {
+    setLoading(true);
+
     const removeBg = await loadRemoveBg().then((module) => module.default);
-    removeBg(image).then((blob) => {
-      setProccessedImage(blob);
-    });
+
+    removeBg(image)
+      .then((blob) => {
+        setProccessedImage(blob);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
     <Upload.Form onSubmit={handleSubmit}>
-      <Card className="w-[350px]">
+      <Card className="w-[350px] relative">
+        {loading ? (
+          <div className="absolute w-full h-full flex justify-center items-center backdrop-blur-sm bg-white/30 rounded-lg z-10">
+            <Loader2 className="animate-spin w-10 h-10" />
+            <p className="ml-2 text-gray-500">Aguarde...</p>
+          </div>
+        ) : null}
         <CardHeader>
           <CardTitle>Selecione a imagem</CardTitle>
           <CardDescription>
