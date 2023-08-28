@@ -1,6 +1,6 @@
 import * as React from "react";
 import { SubmitHandler, useForm } from "@modular-forms/react";
-import { Input, object, special } from "valibot";
+import { Input, object, set, special } from "valibot";
 import {
   Button,
   Card,
@@ -20,13 +20,18 @@ const FormSchema = object({
 
 type UploadForm = Input<typeof FormSchema>;
 
+const loadRemoveBg = () => import("@imgly/background-removal");
+
 export const UploadImage: React.FC = () => {
   const [, Upload] = useForm<UploadForm>();
   const [file, setFile] = React.useState<File>();
+  const [, setProccessedImage] = React.useState<Blob>();
 
-  const handleSubmit: SubmitHandler<UploadForm> = (values) => {
-    console.log(values);
-    // Your code here
+  const handleSubmit: SubmitHandler<UploadForm> = async ({ image }) => {
+    const removeBg = await loadRemoveBg().then((module) => module.default);
+    removeBg(image).then((blob) => {
+      setProccessedImage(blob);
+    });
   };
 
   return (
