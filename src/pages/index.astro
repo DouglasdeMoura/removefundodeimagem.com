@@ -4,5 +4,15 @@ import { UploadImage } from "~/components";
 ---
 
 <Layout title="Remover fundo imagem gratuitamente">
-  <UploadImage client:load />
+  <div
+    class="flex flex-col gap-4 justify-center items-center py-4 h-screen w-screen lg:flex-row"
+  >
+    <h2
+      class="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl dark:text-white text-center lg:text-left"
+    >
+      Remova o fundo das suas imagens
+      <span class="text-blue-500">gratuitamente</span>
+    </h2>
+    <UploadImage client:load />
+  </div>
 </Layout>

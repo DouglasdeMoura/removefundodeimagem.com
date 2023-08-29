@@ -85,8 +85,8 @@ export const UploadImage: React.FC = () => {
   }
 
   return (
-    <Upload.Form onSubmit={handleSubmit} className="drop-shadow-md">
-      <Card className="max-w-screen-sm relative">
+    <Upload.Form onSubmit={handleSubmit} className="drop-shadow-md ">
+      <Card className="max-w-screen-sm relative ">
         {loading ? (
           <div className="absolute w-full h-full flex justify-center items-center backdrop-blur-sm bg-black/30 rounded-lg z-10">
             <Loader2 className="animate-spin w-10 h-10 text-gray-50 drop-shadow-lg" />

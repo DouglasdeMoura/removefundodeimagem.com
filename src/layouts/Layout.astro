@@ -22,14 +22,12 @@ const { title } = Astro.props;
   </head>
   <body>
     <header
-      class="border-b flex h-16 items-center justify-center px-4 bg-white"
+      class="border-b flex h-16 items-center justify-center px-4 bg-white sr-only"
     >
       <a class="mr-6 flex items-center space-x-2 font-semibold gap-2" href="/"
         ><ImageIcon />Remover fundo de imagem</a
       >
     </header>
-    <div class="mx-auto mt-8 w-96">
-      <slot />
-    </div>
+    <slot />
   </body>
 </html>
