@@ -32,6 +32,7 @@ export const UploadImage: React.FC = () => {
   const [, Upload] = useForm<UploadForm>();
   const [file, setFile] = React.useState<File>();
   const [processedImage, setProccessedImage] = React.useState<Blob>();
+  const [dragover, setDragOver] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
 
   const handleSubmit: SubmitHandler<UploadForm> = async ({ image }) => {
@@ -39,7 +40,7 @@ export const UploadImage: React.FC = () => {
 
     const removeBg = await loadRemoveBg().then((module) => module.default);
 
-    removeBg(image)
+    removeBg(image ?? file)
       .then((blob) => {
         setProccessedImage(blob);
       })
@@ -85,11 +86,11 @@ export const UploadImage: React.FC = () => {
 
   return (
     <Upload.Form onSubmit={handleSubmit}>
-      <Card className="w-[350px] relative">
+      <Card className="max-w-screen-sm relative">
         {loading ? (
-          <div className="absolute w-full h-full flex justify-center items-center backdrop-blur-sm bg-white/30 rounded-lg z-10">
-            <Loader2 className="animate-spin w-10 h-10" />
-            <p className="ml-2 text-gray-500">Aguarde...</p>
+          <div className="absolute w-full h-full flex justify-center items-center backdrop-blur-sm bg-black/30 rounded-lg z-10">
+            <Loader2 className="animate-spin w-10 h-10 text-gray-50 drop-shadow-lg" />
+            <p className="ml-2 text-gray-50 drop-shadow-lg">Aguarde...</p>
           </div>
         ) : null}
         <CardHeader>
@@ -121,9 +122,44 @@ export const UploadImage: React.FC = () => {
                 <div hidden={Boolean(file)}>
                   <label
                     htmlFor={field.name}
-                    className="mx-auto cursor-pointer flex w-full max-w-lg flex-col items-center rounded-xl border-2 border-dashed border-blue-400 bg-white p-6 text-center"
+                    className={`mx-auto cursor-pointer flex w-full max-w-lg flex-col items-center rounded-xl border-2 border-dashed ${
+                      dragover ? "border-blue-400" : "border-gray-400"
+                    } bg-white p-6 text-center`}
+                    onDragOver={(e) => {
+                      e.preventDefault();
+                      setDragOver(true);
+                    }}
+                    onDragLeave={() => {
+                      setDragOver(false);
+                    }}
+                    onDrop={(e) => {
+                      e.preventDefault();
+                      setDragOver(false);
+
+                      if (e.dataTransfer.items) {
+                        [...e.dataTransfer.items].forEach((item) => {
+                          if (item.kind === "file") {
+                            const file = item.getAsFile();
+
+                            if (file) {
+                              setFile(file);
+                            }
+                          }
+                        });
+                      } else {
+                        [...e.dataTransfer.files].forEach((file) => {
+                          if (file) {
+                            setFile(file);
+                          }
+                        });
+                      }
+                    }}
                   >
-                    <UploadIcon className="text-blue-500" />
+                    <UploadIcon
+                      className={`${
+                        dragover ? "text-blue-500" : "text-blue-400"
+                      }`}
+                    />
 
                     <p className="mt-2 text-gray-500 tracking-wide">
                       Arraste uma imagem ou clique para selecionar
