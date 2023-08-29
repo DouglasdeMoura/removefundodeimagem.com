@@ -52,7 +52,11 @@ export const UploadImage: React.FC = () => {
   if (processedImage) {
     return (
       <div className="flex flex-col gap-4">
-        <img src={URL.createObjectURL(processedImage)} alt="" />
+        <img
+          src={URL.createObjectURL(processedImage)}
+          alt=""
+          className="max-h-72"
+        />
         <div className="flex gap-4">
           <Button
             variant="secondary"
@@ -104,7 +108,7 @@ export const UploadImage: React.FC = () => {
             {(field, { onChange, ...props }) => (
               <>
                 {file ? (
-                  <div className="relative">
+                  <div className="relative flex justify-center items-center">
                     <Button
                       className="absolute top-2 right-2"
                       size="sm"
@@ -116,7 +120,11 @@ export const UploadImage: React.FC = () => {
                     >
                       <XIcon />
                     </Button>
-                    <img src={URL.createObjectURL(file)} alt="" />
+                    <img
+                      src={URL.createObjectURL(file)}
+                      alt=""
+                      className="max-h-72"
+                    />
                   </div>
                 ) : null}
                 <div hidden={Boolean(file)}>
